@@ -39,7 +39,11 @@ void obtener(T_Manejador *manejador, unsigned tam, unsigned* dir, unsigned* ok){
 
 /* Muestra el estado actual de la memoria, bloques de memoria libre */
 void mostrar (T_Manejador manejador){
-    
+    T_Manejador aux = manejador;
+    while(aux!=NULL){
+        printf("Inicio es %d y Fin es %d\n", aux->inicio, aux->fin);
+        aux = aux->sig;
+    }
 }
 
 
