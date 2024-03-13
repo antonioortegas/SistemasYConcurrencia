@@ -8,7 +8,7 @@
  * Inicialmente, s�lo un nodo desde 0 a MAX
 */
 void crear(T_Manejador* manejador){
-    *manejador = (T_Manejador*)malloc(sizeof(struct T_Nodo));
+    *manejador = (T_Manejador)malloc(sizeof(struct T_Nodo));
     (*manejador)->inicio=0;
     (*manejador)->fin=MAX-1;
     (*manejador)->sig=NULL;
@@ -26,6 +26,11 @@ void destruir(T_Manejador* manejador) {
     }
 }
 
+void eliminarNodoIntermedio(T_Manejador *manejador){
+    T_Manejador aux = *manejador;
+    *manejador = (*manejador)->sig;
+    free(aux);
+}
 
 /* Devuelve en �dir� la direcci�n de memoria �simulada� (unsigned) donde comienza
  * el trozo de memoria continua de tama�o �tam� solicitada.
@@ -33,14 +38,29 @@ void destruir(T_Manejador* manejador) {
  * suficiente, devolvera TRUE (1) en �ok�; FALSE (0) en otro caso.
  */
 void obtener(T_Manejador *manejador, unsigned tam, unsigned* dir, unsigned* ok){
-    
+    *ok = 0;
+    while(*manejador!=NULL){
+        if(((*manejador)->fin - (*manejador)->inicio + 1) >= tam){
+            //asigno memoria, true a ok, y el tamaño a tam y salgo
+            *ok = 1;
+            *dir = (*manejador)->inicio;
+            (*manejador)->inicio += tam;
+            if((*manejador)->inicio == (*manejador)->fin){
+                eliminarNodoIntermedio(&manejador);
+            }
+            break;
+        } else{
+            *manejador = (*manejador)->sig;
+        }
+    }
 }
+
 
 
 /* Muestra el estado actual de la memoria, bloques de memoria libre */
 void mostrar (T_Manejador manejador){
     while(manejador!=NULL){
-        printf("Inicio es %d y Fin es %d\n", manejador->inicio, manejador->fin);
+        printf("Desde %d a %d: Libre\n", manejador->inicio, manejador->fin);
         manejador = manejador->sig;
     }
 }
@@ -51,6 +71,30 @@ void mostrar (T_Manejador manejador){
  * Se puede suponer que se trata de un trozo obtenido previamente.
  */
 void devolver(T_Manejador *manejador, unsigned tam, unsigned dir) {
+    
+    T_Manejador nuevo = malloc(sizeof(struct T_Nodo));
+    nuevo->inicio = dir;
+    nuevo->fin = dir + tam -1;
+    while((*manejador)!=NULL ){
+        if((*manejador)->inicio > nuevo->inicio){
+            nuevo->sig = (*manejador)->sig;
+            (*manejador)->sig = nuevo;
+            if((*manejador)->sig != NULL){
+                if((*manejador)->fin == (*manejador)->sig->inicio){
+                //combinar por la derecha
+                eliminarNodoIntermedio(&((*manejador)->sig));
+                }
+            }
+            if((*manejador)->fin == (*manejador)->sig->inicio -1){
+                //combinar por la izq
+                eliminarNodoIntermedio(&manejador);
+            }
+            
+            break;
+        } else {
+            *manejador = (*manejador)->sig;
+        }
+    } 
     
 }
 

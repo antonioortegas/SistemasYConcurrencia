@@ -20,7 +20,7 @@ int main(void) {
 
 	crear(&manej);
 	mostrar(manej);
-
+	
 	obtener(&manej,500,&dir,&ok); /* Se ha hecho una foto. Se necesita memoria */
 	if (ok) {
 		mostrar(manej);
