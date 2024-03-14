@@ -39,18 +39,29 @@ void eliminarNodoIntermedio(T_Manejador *manejador){
  */
 void obtener(T_Manejador *manejador, unsigned tam, unsigned* dir, unsigned* ok){
     *ok = 0;
-    while(*manejador!=NULL){
-        if(((*manejador)->fin - (*manejador)->inicio + 1) >= tam){
-            //asigno memoria, true a ok, y el tamaño a tam y salgo
-            *ok = 1;
-            *dir = (*manejador)->inicio;
-            (*manejador)->inicio += tam;
-            if((*manejador)->inicio == (*manejador)->fin){
-                eliminarNodoIntermedio(&manejador);
+    *dir = 0;
+    T_Manejador actual = *manejador;
+    T_Manejador anterior = NULL;
+
+    while(actual!=NULL){
+        
+        if((actual->fin - actual->inicio + 1) >= tam){
+            (*ok) = 1;
+            (*dir) = actual->inicio;
+            if((actual->fin - actual->inicio + 1) == tam){
+                if(anterior==NULL){
+                    (*manejador) = actual->sig;
+                } else {
+                    anterior->sig = actual->sig;
+                }
+                free(actual);
+            } else {
+                actual->inicio = (actual->inicio) + tam;
             }
             break;
-        } else{
-            *manejador = (*manejador)->sig;
+        } else {
+            anterior = actual;
+            actual = actual->sig;
         }
     }
 }
@@ -59,6 +70,7 @@ void obtener(T_Manejador *manejador, unsigned tam, unsigned* dir, unsigned* ok){
 
 /* Muestra el estado actual de la memoria, bloques de memoria libre */
 void mostrar (T_Manejador manejador){
+    printf("-----\n");
     while(manejador!=NULL){
         printf("Desde %d a %d: Libre\n", manejador->inicio, manejador->fin);
         manejador = manejador->sig;
@@ -71,30 +83,23 @@ void mostrar (T_Manejador manejador){
  * Se puede suponer que se trata de un trozo obtenido previamente.
  */
 void devolver(T_Manejador *manejador, unsigned tam, unsigned dir) {
-    
-    T_Manejador nuevo = malloc(sizeof(struct T_Nodo));
+    T_Manejador actual = (*manejador);
+    T_Manejador anterior = NULL;
+    while(actual != NULL && dir > (actual->inicio)){
+        anterior = actual;
+        actual = actual->sig;
+    }
+    //He llegado donde tengo que insertar
+    T_Manejador nuevo;
+    nuevo = (T_Manejador)malloc(sizeof(struct T_Nodo));
     nuevo->inicio = dir;
-    nuevo->fin = dir + tam -1;
-    while((*manejador)!=NULL ){
-        if((*manejador)->inicio > nuevo->inicio){
-            nuevo->sig = (*manejador)->sig;
-            (*manejador)->sig = nuevo;
-            if((*manejador)->sig != NULL){
-                if((*manejador)->fin == (*manejador)->sig->inicio){
-                //combinar por la derecha
-                eliminarNodoIntermedio(&((*manejador)->sig));
-                }
-            }
-            if((*manejador)->fin == (*manejador)->sig->inicio -1){
-                //combinar por la izq
-                eliminarNodoIntermedio(&manejador);
-            }
-            
-            break;
-        } else {
-            *manejador = (*manejador)->sig;
-        }
-    } 
-    
+    nuevo->fin = dir + tam - 1;
+    nuevo->sig = actual;
+
+    if(anterior == NULL){
+        (*manejador) = nuevo;
+    } else {
+        anterior->sig = nuevo;
+    }
 }
 
