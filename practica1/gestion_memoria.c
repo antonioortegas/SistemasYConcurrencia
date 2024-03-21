@@ -26,11 +26,7 @@ void destruir(T_Manejador* manejador) {
     }
 }
 
-void eliminarNodoIntermedio(T_Manejador *manejador){
-    T_Manejador aux = *manejador;
-    *manejador = (*manejador)->sig;
-    free(aux);
-}
+
 
 /* Devuelve en �dir� la direcci�n de memoria �simulada� (unsigned) donde comienza
  * el trozo de memoria continua de tama�o �tam� solicitada.
@@ -70,11 +66,11 @@ void obtener(T_Manejador *manejador, unsigned tam, unsigned* dir, unsigned* ok){
 
 /* Muestra el estado actual de la memoria, bloques de memoria libre */
 void mostrar (T_Manejador manejador){
-    printf("-----\n");
     while(manejador!=NULL){
         printf("Desde %d a %d: Libre\n", manejador->inicio, manejador->fin);
         manejador = manejador->sig;
     }
+    printf("-----\n");
 }
 
 
