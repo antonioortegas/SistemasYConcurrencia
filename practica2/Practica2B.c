@@ -59,7 +59,15 @@ void muestrafichero(char* nfichero){
  */
 
 void cargaFichero(char* nfichero, T_Arbol* miarbol){
-
+	FILE* fd;
+	if ((fd = fopen(nfichero,"rb"))==NULL){
+		perror("Error abriendo ficheroBinario.dat");
+	}
+	int valor, leidos;
+	while ((leidos = fread(&valor,sizeof(int),1,fd)) > 0){
+		Insertar(miarbol,valor);
+	}
+	fclose(fd);
 }
 
 int main(void) {
@@ -75,6 +83,7 @@ int main(void) {
 	muestrafichero(nfichero);
 	fflush(stdout);
 /* COMMENT TREE FUNCTIONS FOR NOW
+*/
 	printf ("\nAhora lo cargamos en el arbol\n");
 	T_Arbol miarbol;
 	Crear (&miarbol);
@@ -90,6 +99,5 @@ int main(void) {
 	printf("\nY lo mostramos ordenado\n");
 	muestrafichero(nfichero);
 	Destruir (&miarbol);
-*/
 	return EXIT_SUCCESS;
 }
