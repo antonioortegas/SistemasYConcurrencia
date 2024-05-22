@@ -1,7 +1,5 @@
 package prodconsMon;
 
-import java.util.Arrays;
-
 public class Buffer {
 	//Buffer
 	private int N = 10; //Tamaño del buffer

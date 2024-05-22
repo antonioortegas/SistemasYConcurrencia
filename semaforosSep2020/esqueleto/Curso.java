@@ -3,6 +3,7 @@ package esqueleto;
 public class Curso {
 
 	//Numero maximo de alumnos cursando simultaneamente la parte de iniciacion
+	@SuppressWarnings("unused")
 	private final int MAX_ALUMNOS_INI = 10;
 
 	//Numero de alumnos por grupo en la parte avanzada
