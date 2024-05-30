@@ -8,9 +8,6 @@ public class DatoCompartido {
 	
 	private ReentrantLock l = new ReentrantLock();
 
-	private Condition puedeGenerarCondition = l.newCondition();
-	private boolean puedeGenerar = true; // al principio genero un dato
-
 	private Condition puedeConsumirCondition = l.newCondition();
 	private boolean puedeConsumir = false; // al principio no hay dato hasta que no genero
 
@@ -40,10 +37,7 @@ public class DatoCompartido {
 		//COMPLETAR y colocar los mensajes en el lugar apropiado dentro del c�digo
 		try {
 			l.lock();
-			//si no puedo generar aun, me espero
-			while(!puedeGenerar){
-				puedeGenerarCondition.await();
-			}
+			
 			dato = d; // genero el dato
 			// ya se puede consumir
 			puedeConsumir = true;
@@ -56,7 +50,6 @@ public class DatoCompartido {
 			}
 			//cuando saldo de aqui ya puedo generar
 			puedeConsumir = false;
-			puedeGenerar = true;
 			return dato;
 		} finally {
 			l.unlock();
@@ -113,7 +106,6 @@ public class DatoCompartido {
 				puedeConsumirCondition.signalAll(); //aviso a uno, poeque solo puede leer uno a la vez
 			}else{
 				procesoTerminadoCondition.signalAll(); //aviso a todos de que ya hay otro dato
-				puedeGenerarCondition.signalAll(); //aviso al generador para que genere
 			//me quedo esperando si quedan procesadores por consumir el dato
 			}while(procPend>0){
 				procesoTerminadoCondition.await();
