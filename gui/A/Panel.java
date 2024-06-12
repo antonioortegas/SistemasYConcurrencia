@@ -94,93 +94,126 @@ public class Panel extends JPanel {
 	// Debes registrar el ctr como observador de los botones y JTextField
 	// correspondiendes
 	public void controlador(ActionListener ctr) {
-
+		fin.addActionListener(ctr);
+		fin.setActionCommand("Exit");
+		numero1.addActionListener(ctr);
+		numero1.setActionCommand("Twin");
+		numero2.addActionListener(ctr);
+		numero2.setActionCommand("Cousin");
+		numero3.addActionListener(ctr);
+		numero3.setActionCommand("Sexy");
 	}
 
 	// Devuelve el entero que tiene el JTextField numero 1
 	public int numero1() {
-		return 0;
+		return Integer.parseInt(numero1.getText());
 	}
 
 	// Devuelve el entero que tiene el JTextField numero 2
 	public int numero2() {
-		return 0;
+		return Integer.parseInt(numero2.getText());
 	}
 
 	// Devuelve el entero que tiene el JTextField numero 3
 	public int numero3() {
-		return 0;
+		return Integer.parseInt(numero3.getText());
 	}
 
 	// Añade a JTextArea listaPrimos1 la lista que se le pasa.
 	// Recuerda meter retornos de carro para que salga como en la captura de
 	// pantalla
 	public void escribePrimosTwin(List<Primos> list) {
-
+		int count = 0;
+		for (Primos primo : list) {
+			listaPrimos1.append(primo.toString());
+			count++;
+			if (count % 5 == 0) {
+				listaPrimos1.append("\n");
+			} else {
+				listaPrimos1.append(" ");
+			}
+		}
 	}
 
 	// Añade a JTextArea listaPrimos2 la lista que se le pasa.
 	// Recuerda meter retornos de carro para que salga como en la captura de
 	// pantalla
 	public void escribePrimosCousin(List<Primos> list) {
-
+		int count = 0;
+		for (Primos primo : list) {
+			listaPrimos2.append(primo.toString());
+			count++;
+			if (count % 5 == 0) {
+				listaPrimos2.append("\n");
+			} else {
+				listaPrimos2.append(" ");
+			}
+		}
 	}
 
 	// Añade a JTextArea listaPrimos3 la lista que se le pasa.
 	// Recuerda meter retornos de carro para que salga como en la captura de
 	// pantalla
-
 	public void escribePrimosSexy(List<Primos> list) {
-
+		int count = 0;
+		for (Primos primo : list) {
+			listaPrimos3.append(primo.toString());
+			count++;
+			if (count % 5 == 0) {
+				listaPrimos3.append("\n");
+			} else {
+				listaPrimos3.append(" ");
+			}
+		}
 	}
 
 	// Limpia el JTextArea listaPrimos1
 	public void limpiaAreaTwin() {
-
+		listaPrimos1.setText("");
 	}
 
 	// Limpia el JTextArea listaPrimos2
 	public void limpiaAreaCousin() {
-
+		listaPrimos2.setText("");
 	}
 
 	// Limpia el JTextArea listaPrimos3
 	public void limpiaAreaSexy() {
-
+		listaPrimos3.setText("");
 	}
 
 	// Establece mensaje que se le pasa el JLabel mensaje
 	public void mensaje(String str) {
-
+		mensaje.setText(str);
 	}
 
 	// Establece mensaje que se le pasa el JLabel mensaje1
 	public void mensajeTwin(String str) {
-		
+		mensaje1.setText(str);
 	}
 
 	// Establece mensaje que se le pasa el JLabel mensaje2
 	public void mensajeCousin(String str) {
-
+		mensaje2.setText(str);
 	}
 
 	// Establece mensaje que se le pasa el JLabel mensaje3
 	public void mensajeSexy(String str) {
-
+		mensaje3.setText(str);
 	}
 
 	// Establece el nivel de progreso n en el JProgressBar progreso1
 	public void progreso1(int n) {
-
+		progreso1.setValue(n);
 	}
 
 	// Establece el nivel de progreso n en el JProgressBar progreso2
 	public void progreso2(int n) {
-
+		progreso2.setValue(n);
 	}
 
 	// Establece el nivel de progreso n en el JProgressBar progreso3
 	public void progreso3(int n) {
-
+		progreso3.setValue(n);
 	}
 }
