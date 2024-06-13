@@ -2,11 +2,9 @@ package A;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.*;
 
-import java.util.*;
 import java.util.List;
 
 public class Panel extends JPanel {
