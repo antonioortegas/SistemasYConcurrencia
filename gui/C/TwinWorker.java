@@ -1,12 +1,10 @@
-package A;
+package C;
 
 import java.util.*;
-import java.util.concurrent.CancellationException;
-import java.util.concurrent.ExecutionException;
 
 import javax.swing.SwingWorker;
 
-public class TwinWorker extends SwingWorker<List<Primos>, Void> {
+public class TwinWorker extends SwingWorker<Void, Primos> {
 
     private int n;
     private Panel panel;
@@ -29,33 +27,31 @@ public class TwinWorker extends SwingWorker<List<Primos>, Void> {
     }
 
     @Override
-    protected List<Primos> doInBackground() {
+    protected Void doInBackground() {
+        this.setProgress(0);
         panel.limpiaAreaTwin();
         panel.progreso1(0);
         panel.mensajeTwin("Generating twin primes...");
-        List<Primos> primos = new ArrayList<>();
         int count = 0;
         int i = 2;
-        while (count < n) {
+        while (count < n && !isCancelled()) {
             if (isPrime(i) && isPrime(i + 2)) {
-                primos.add(new Primos(i, i + 2, count));
+                publish(new Primos(i, i + 2, count));
                 count++;
+                this.setProgress(count * 100 / n);
             }
             i++;
         }
-        return primos;
-    }
-
-    protected void done() {
-        try{
-            panel.progreso1(100);
-            panel.mensajeTwin("Twin primes generated.");
-            panel.escribePrimosTwin(this.get());
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        } catch (CancellationException ex) {
-            panel.progreso1(0);
+        if (isCancelled()) {
             panel.mensajeTwin("Twin primes generation cancelled.");
+        } else {
+            panel.mensajeTwin("Twin primes generation completed.");
         }
+        return null;
+    }
+    
+    @Override
+    protected void process(List<Primos> chunks) {
+        panel.escribePrimosTwin(chunks);
     }
 }

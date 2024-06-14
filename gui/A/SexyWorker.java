@@ -29,7 +29,7 @@ public class SexyWorker extends SwingWorker<List<Primos>, Void> {
     }
 
     @Override
-    protected List<Primos> doInBackground() throws Exception {
+    protected List<Primos> doInBackground() {
         panel.limpiaAreaSexy();
         panel.progreso3(0);
         panel.mensajeSexy("Generating sexy primes...");

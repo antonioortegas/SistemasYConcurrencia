@@ -29,7 +29,7 @@ public class CousinWorker extends SwingWorker<List<Primos>, Void> {
     }
 
     @Override
-    protected List<Primos> doInBackground() throws Exception {
+    protected List<Primos> doInBackground() {
         panel.limpiaAreaCousin();
         panel.progreso2(0);
         panel.mensajeCousin("Generating cousin primes...");
