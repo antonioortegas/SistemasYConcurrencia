@@ -39,6 +39,6 @@ public class Primos {
 
     @Override
     public String toString() {
-        return "(" + primo1 + ", " + primo2 + ")";
+        return position + ":(" + primo1 + ", " + primo2 + ")";
     }
 }

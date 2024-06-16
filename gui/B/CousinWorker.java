@@ -34,8 +34,8 @@ public class CousinWorker extends SwingWorker<Void, Primos> {
         int count = 0;
         int i = 2;
         while (count < n && !isCancelled()) {
-            if (isPrime(i) && isPrime(i + 6)) {
-                publish(new Primos(i, i + 6, count));
+            if (isPrime(i) && isPrime(i + 4)) {
+                publish(new Primos(i, i + 4, count));
                 count++;
             }
             i++;

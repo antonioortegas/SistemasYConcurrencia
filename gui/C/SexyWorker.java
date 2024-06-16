@@ -18,7 +18,7 @@ public class SexyWorker extends SwingWorker<Void, Primos> {
         if (n < 2) {
             return false;
         }
-        for (int i = 2; i*i < n; i++) {
+        for (int i = 2; i*i <= n; i++) {
             if (n % i == 0) {
                 return false;
             }
@@ -35,8 +35,8 @@ public class SexyWorker extends SwingWorker<Void, Primos> {
         int count = 0;
         int i = 2;
         while (count < n && !isCancelled()) {
-            if (isPrime(i) && isPrime(i + 4)) {
-                publish(new Primos(i, i + 4, count));
+            if (isPrime(i) && isPrime(i + 6)) {
+                publish(new Primos(i, i + 6, count));
                 count++;
                 this.setProgress(count * 100 / n);
             }
